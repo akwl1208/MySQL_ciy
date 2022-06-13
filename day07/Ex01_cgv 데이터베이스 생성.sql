@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS `theater`;
 CREATE TABLE `theater` (
 	`th_name`	varchar(20)	NOT NULL,
 	`th_region`	varchar(10)	NULL,
-	`th_addr`	varchar(20)	NULL
+	`th_addr`	varchar(100)NULL
 );
 
 DROP TABLE IF EXISTS `screen`;
@@ -238,3 +238,72 @@ insert act(ac_mo_num,ac_mm_num,ac_role) values
     ((select mo_num from movie where mo_title = '브로커'), (select mm_num from movieman where mm_name = '배두나'), '배우'),
     ((select mo_num from movie where mo_title = '브로커'), (select mm_num from movieman where mm_name = '이지은'), '배우'),
     ((select mo_num from movie where mo_title = '브로커'), (select mm_num from movieman where mm_name = '이주영'), '베우');
+    
+-- 청주성안길 영화관 추가
+insert theater values('cgv청주성안길','대전/충청','충청북도 청주시 상당구 북문로1가 170-1');
+-- 청주성안길 상영관 추가
+insert screen(sc_name,sc_type,sc_th_name,sc_maxSeat)
+	values('1관', '2D', 'cgv청주성안길', 10),('2관', '2D', 'cgv청주성안길', 10),('3관', '2D', 'cgv청주성안길', 10),
+    ('4관', '2D', 'cgv청주성안길', 10),('5관', '2D', 'cgv청주성안길', 10);
+-- 청주성안길 좌석 추가
+insert seat(se_sc_num, se_name, se_type, se_use)
+	values(1, 'A1', '일반', 'Y'), (1, 'A2', '일반', 'Y'), (1, 'B1', '일반', 'Y'), (1, 'B2', '일반', 'Y'), (1, 'C1', '일반', 'Y'),
+    (1, 'C2', '일반', 'Y'), (1, 'D1', '일반', 'Y'), (1, 'D2', '일반', 'Y'), (1, 'E1', '일반', 'Y'), (1, 'E2', '일반', 'Y'),
+    (2, 'A1', '일반', 'Y'), (2, 'A2', '일반', 'Y'), (2, 'B1', '일반', 'Y'), (2, 'B2', '일반', 'Y'), (2, 'C1', '일반', 'Y'),
+    (2, 'C2', '일반', 'Y'), (2, 'D1', '일반', 'Y'), (2, 'D2', '일반', 'Y'), (2, 'E1', '일반', 'Y'), (2, 'E2', '일반', 'Y'),
+    (3, 'A1', '일반', 'Y'), (3, 'A2', '일반', 'Y'), (3, 'B1', '일반', 'Y'), (3, 'B2', '일반', 'Y'), (3, 'C1', '일반', 'Y'),
+    (3, 'C2', '일반', 'Y'), (3, 'D1', '일반', 'Y'), (3, 'D2', '일반', 'Y'), (3, 'E1', '일반', 'Y'), (3, 'E2', '일반', 'Y'),
+    (4, 'A1', '일반', 'Y'), (4, 'A2', '일반', 'Y'), (4, 'B1', '일반', 'Y'), (4, 'B2', '일반', 'Y'), (4, 'C1', '일반', 'Y'),
+    (4, 'C2', '일반', 'Y'), (4, 'D1', '일반', 'Y'), (4, 'D2', '일반', 'Y'), (4, 'E1', '일반', 'Y'), (4, 'E2', '일반', 'Y'),
+    (5, 'A1', '일반', 'Y'), (5, 'A2', '일반', 'Y'), (5, 'B1', '일반', 'Y'), (5, 'B2', '일반', 'Y'), (5, 'C1', '일반', 'Y'),
+    (5, 'C2', '일반', 'Y'), (5, 'D1', '일반', 'Y'), (5, 'D2', '일반', 'Y'), (5, 'E1', '일반', 'Y'), (5, 'E2', '일반', 'Y');
+
+-- 제주 영화관 추가
+insert theater values('cgv제주','광주/전라/제주','제주특별자치도 제주시 이도2동 메카플러스 3~7층');
+-- 제주 상영관 추가
+insert screen(sc_name,sc_type,sc_th_name,sc_maxSeat)
+	values('1관', '2D', 'cgv제주', 8),('2관', '2D', 'cgv제주', 8),('3관', '2D', 'cgv제주', 8);
+-- 제주 좌석 추가
+insert seat(se_sc_num, se_name, se_type, se_use)
+	values(6, 'A1', '일반', 'Y'), (6, 'A2', '일반', 'Y'), (6, 'A3', '일반', 'Y'), (6, 'B1', '일반', 'Y'), (6, 'B2', '일반', 'Y'),
+    (6, 'B3', '일반', 'Y'), (6, 'C1', '일반', 'Y'), (6, 'C2', '일반', 'Y'),
+    (7, 'A1', '일반', 'Y'), (7, 'A2', '일반', 'Y'), (7, 'A3', '일반', 'Y'), (7, 'B1', '일반', 'Y'), (7, 'B2', '일반', 'Y'),
+    (7, 'B3', '일반', 'Y'), (7, 'C1', '일반', 'Y'), (7, 'C2', '일반', 'Y'),
+    (8, 'A1', '일반', 'Y'), (8, 'A2', '일반', 'Y'), (8, 'A3', '일반', 'Y'), (8, 'B1', '일반', 'Y'), (8, 'B2', '일반', 'Y'),
+    (8, 'B3', '일반', 'Y'), (8, 'C1', '일반', 'Y'), (8, 'C2', '일반', 'Y');
+
+-- 브로커 6월 14일 cgv성안길 일정 추가    
+insert `show`(sh_mo_num,sh_sc_num,sh_startTime,sh_endTime,sh_posSeat)
+	values (1,1,'2022-06-14 11:30', '2022-06-14 13:49', 10),
+	(1,1,'2022-06-14 14:05', '2022-06-14 16:24', 10),
+	(1,1,'2022-06-14 16:40', '2022-06-14 18:59', 10),
+	(1,2,'2022-06-14 10:25', '2022-06-14 12:44', 10),
+	(1,2,'2022-06-14 13:00', '2022-06-14 15:19', 10),
+	(1,2,'2022-06-14 15:35', '2022-06-14 17:54', 10),
+	(1,2,'2022-06-14 18:10', '2022-06-14 20:29', 10),
+	(1,2,'2022-06-14 20:45', '2022-06-14 23:04', 10),
+	(1,2,'2022-06-14 23:20', '2022-06-15 01:39', 10),
+	(1,3,'2022-06-14 11:00', '2022-06-14 13:19', 10),
+	(1,3,'2022-06-14 13:35', '2022-06-14 15:54', 10),
+	(1,3,'2022-06-14 16:10', '2022-06-14 18:29', 10),
+	(1,3,'2022-06-14 21:15', '2022-06-14 23:34', 10),
+	(1,3,'2022-06-14 23:45', '2022-06-15 02:04', 10);
+    
+-- 회원 추가
+insert `user` values('abc123','abc123');
+
+-- abc123 회원이 6/14일 cgv성안길 11:30분에 하는 영화 브로커 A1,A2 좌석을 예매, 가격은 자리당 10000원 
+insert book(bo_us_id,bo_sh_num,bo_date,bo_state,bo_amount,bo_totalPrice)
+	select 'abc123', sh_num, now(),'Y', 2 , 20000 from `show`
+	join movie on sh_mo_num = mo_num
+    where sh_startTime = '2022-06-14 11:30'
+		and mo_title = '브로커';
+        
+insert bookdetail(bd_bo_num, bd_se_num, bd_price)
+	select 1, se_num, 10000 from `show`
+		join moive on sc_mo_num - mo_num
+        join seat on se_sc_num = sh_sc_num
+        where mo_title = '브로커'
+			and sh_startTime = '2022-06-14 11:30'
+            and se_name in('A1','A2')
+            and se_use = 'Y';
