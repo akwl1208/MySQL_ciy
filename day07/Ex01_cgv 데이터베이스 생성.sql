@@ -301,9 +301,26 @@ insert book(bo_us_id,bo_sh_num,bo_date,bo_state,bo_amount,bo_totalPrice)
         
 insert bookdetail(bd_bo_num, bd_se_num, bd_price)
 	select 1, se_num, 10000 from `show`
-		join moive on sc_mo_num - mo_num
+		join movie on sh_mo_num = mo_num
         join seat on se_sc_num = sh_sc_num
         where mo_title = '브로커'
 			and sh_startTime = '2022-06-14 11:30'
             and se_name in('A1','A2')
             and se_use = 'Y';
+            
+-- abc123 회원이 6/14일 cgv성안길 11:30분에 하는 영화 브로커 C1,C2 좌석을 예매, 가격은 자리당 10000원 
+insert book(bo_us_id,bo_sh_num,bo_date,bo_state,bo_amount,bo_totalPrice)
+	select 'abc123', sh_num, now(),'Y', 2 , 20000 from `show`
+	join movie on sh_mo_num = mo_num
+    where sh_startTime = '2022-06-14 11:30'
+		and mo_title = '브로커';
+        
+insert bookdetail(bd_bo_num, bd_se_num, bd_price)
+	select 2, se_num, 10000 from `show`
+		join movie on sh_mo_num = mo_num
+        join seat on se_sc_num = sh_sc_num
+        where mo_title = '브로커'
+			and sh_startTime = '2022-06-14 11:30'
+            and se_name in('C1','C2')
+            and se_use = 'Y';
+            
