@@ -48,14 +48,14 @@ select mo_title as 제목, sc_th_name as 영화관, sc_name as 상영관, sh_sta
 	join movie on sh_mo_num = mo_num
     join screen on sh_sc_num = sc_num
     join seat on se_sc_num = sc_num
-    left join book on sc_num = bo_sh_num
-    left join bookdetail on bo_num = bd_bo_num
+    left join book on sh_num = bo_sh_num
+    left join bookdetail on bo_num = bd_bo_num and bd_se_num = se_num
     where mo_title = '브로커'
 		and sc_th_name = 'cgv청주성안길'
         and sh_startTime = '2022-06-14 11:30'
 	group by 좌석명
     having 예약수 = 0;
-    
+
 -- 브로커를 상영하는 모든 극장들을 조회
 select distinct sc_th_name from screen
 	join `show` on sh_sc_num = sc_num
