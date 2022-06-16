@@ -177,7 +177,7 @@ update board set bo_oriNum = bo_num where bo_oriNum is null; -- null체크할 �
 
 -- abcd1234 회원이 일반게시글 작성
 insert board(bo_ca_name, bo_title, bo_content, bo_us_id,bo_secret, bo_oriNum)
-	select '일반','안녕하세요','만나서 반갑습니다','abcd1234',0, ifnull(max(bo_num),0)+1 from board; 
+	select '일반','안녕하세요1','만나서 반갑습니다','abcd1234',0, ifnull(max(bo_num),0)+1 from board; 
     
 -- 관리자가 3번 게시글에 답글을 남김
 insert board(bo_ca_name, bo_title, bo_content, bo_us_id, bo_oriNum, bo_depth, bo_secret)
@@ -194,4 +194,27 @@ insert board(bo_ca_name, bo_title, bo_content, bo_us_id,bo_secret, bo_oriNum)
 	select '일반','제목입니다2','내용입니다','abcd1234',0, ifnull(max(bo_num),0)+1 from board;
 -- 첨부파일 추가
 insert file(fi_oriName,fi_name,fi_bo_num) values('a.txt', 'uuid_a.txt',7),('b.txt','uuid_b.txt',7);  
+
+-- 1번 게시글에 qwer1234 회원이 만나서 반가워요라고 댓글 작성
+-- ifnull은 댓글이나 게시글을 어떻게 삭제하는지에 따라 사용 여부가 판별된다
+insert comment(co_content,co_us_id,co_bo_num,co_secret,co_oriNum,co_depth)
+	select '만나서 반가워요','qwer1234',1,0,ifnull(max(co_num),0)+1,1 from comment;
+
+-- 1번 댓글의 댓글로 admin123 관리자가 댓글 작성
+insert comment(co_content,co_us_id,co_bo_num,co_secret,co_oriNum,co_depth)
+	select '잘부탁드립니다', 'admin123', co_bo_num, 0, co_oriNum, co_depth+1 from comment
+    where co_num = 1;
+    
+-- 1번 게시글의 제목 수정
+update board 
+	set bo_title = '가입인사입니다', 
+		bo_update = now()
+    where bo_num = 1;
+    
+-- 카테고리 추가
+insert category(ca_name) values('스터디');
+
+-- 게시글 추천 비추천 추가
+INSERT INTO `community`.`likes` (`li_us_id`, `li_state`, `li_target`, `li_targetNum`)
+	VALUES ('admin123', '1', 'board', '1'), ('abcd1234', '-1', 'board', '1'), ('qwer1234', '-1', 'board', '4');
 
