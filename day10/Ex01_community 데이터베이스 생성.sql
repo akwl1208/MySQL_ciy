@@ -153,6 +153,10 @@ REFERENCES `board` (
 	`bo_num`
 );
 
+ALTER TABLE `community`.`board` 
+ADD COLUMN `bo_up` INT NOT NULL default 0 AFTER `bo_secret`,
+ADD COLUMN `bo_down` INT NOT NULL default 0 AFTER `bo_up`;
+
 -- 최고관리자 등록
 insert user(us_id,us_pw,us_name,us_phone,us_authority)
 	values('admin123','admin123','관리자', '000-0000-0000', 10);
@@ -217,4 +221,14 @@ insert category(ca_name) values('스터디');
 -- 게시글 추천 비추천 추가
 INSERT INTO `community`.`likes` (`li_us_id`, `li_state`, `li_target`, `li_targetNum`)
 	VALUES ('admin123', '1', 'board', '1'), ('abcd1234', '-1', 'board', '1'), ('qwer1234', '-1', 'board', '4');
+
+-- 처음으로 추천/비추천을 했을 때, 해당 게시글에 추천 똔느 비추천 업데이트
+-- 기존에 likes에 있는 테이블에 있는 테이블들로 추천/비추천수 업데이트
+update board
+	set bo_up = (select count(*) from likes 
+		where bo_num = li_targetNum and li_target = 'board' and li_state = 1);
+
+update board
+	set bo_down = (select count(*) from likes 
+		where bo_num = li_targetNum and li_target = 'board' and li_state = -1);
 
