@@ -85,8 +85,8 @@ CREATE TABLE `book` (
 	`bo_num`	int	NOT NULL,
 	`bo_us_id`	varchar(15)	NOT NULL,
 	`bo_sh_num`	int	NOT NULL,
-	`bo_date`	datetime	NULL,
-	`bo_state`	char(1)	NULL,
+	`bo_date`	datetime	NULL default now(),
+	`bo_state`	char(1)	NULL default 'Y',
 	`bo_amount`	int	NULL,
 	`bo_totalPrice`	int	NULL
 );
@@ -323,4 +323,10 @@ insert bookdetail(bd_bo_num, bd_se_num, bd_price)
 			and sh_startTime = '2022-06-14 11:30'
             and se_name in('C1','C2')
             and se_use = 'Y';
+
+-- 상영 영화 예매 가능 좌석수 업데이트
+UPDATE `show` 
+SET 
+    sh_posSeat = (select sc_maxSeat from screen where sc_num = sh_sc_num)
+		- (SELECT IFNULL(SUM(bo_amount), 0) FROM book WHERE sh_num = bo_sh_num and bo_state = 'Y');
             
